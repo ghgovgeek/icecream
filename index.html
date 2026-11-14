@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dad's Ice Cream Run</title>
+<meta name="description" content="Nobody can agree on an ice cream flavor, and we can only get one. Which would you pick?">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ghgovgeek.github.io/icecream/">
+<meta property="og:title" content="Dad's Ice Cream Run">
+<meta property="og:description" content="Nobody can agree on an ice cream flavor, and we can only get one. Which would you pick?">
+<meta property="og:image" content="https://ghgovgeek.github.io/icecream/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#1d1a24; --paper:#fffaf0; --bg:#cfe9ff; --accent:#ff5e7e; --blue:#3a7bd5; --yellow:#ffd23f; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);
+    background-image:radial-gradient(rgba(58,123,213,.18) 1.5px, transparent 1.6px);background-size:14px 14px;
+    font-family:"Comic Neue","Comic Sans MS",system-ui,sans-serif;color:var(--ink);}
+  .wrap{max-width:620px;margin:0 auto;padding:18px 14px 60px}
+  h1{font-family:Bangers,Impact,sans-serif;font-weight:400;letter-spacing:1.5px;font-size:clamp(36px,9vw,54px);
+    text-align:center;margin:6px 0 18px;color:var(--yellow);text-shadow:3px 3px 0 var(--ink);
+    -webkit-text-stroke:1.5px var(--ink);transform:rotate(-2deg)}
+  .panel{background:var(--paper);border:4px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--ink);
+    padding:16px;margin:0 0 24px;position:relative;animation:pop .35s ease-out}
+  @keyframes pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+  .tag{position:absolute;top:-14px;left:12px;background:var(--yellow);border:3px solid var(--ink);
+    font-family:Bangers,Impact,sans-serif;letter-spacing:1px;padding:1px 10px;font-size:18px;transform:rotate(-2deg)}
+  .scene{display:flex;gap:12px;align-items:flex-start}
+  .scene svg.char{flex:0 0 80px;width:80px;height:112px}
+  .bubble{position:relative;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:10px 13px;
+    font-size:17px;line-height:1.38;flex:1}
+  .bubble:before{content:"";position:absolute;left:-14px;top:24px;border:8px solid transparent;border-right:12px solid var(--ink)}
+  .bubble:after{content:"";position:absolute;left:-8px;top:26px;border:6px solid transparent;border-right:9px solid #fff}
+  .bubble b{color:var(--accent)}
+  .narr{background:var(--yellow);border:3px solid var(--ink);padding:6px 10px;font-weight:700;display:inline-block;
+    margin:0 0 12px;font-size:15px;transform:rotate(-1deg)}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .choice{font:inherit;font-weight:700;font-size:17px;border:3px solid var(--ink);border-radius:12px;padding:10px 8px;
+    cursor:pointer;box-shadow:3px 3px 0 var(--ink);display:flex;align-items:center;gap:8px;justify-content:center;color:var(--ink)}
+  .choice:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .choice svg{width:28px;height:28px;flex:none}
+  .btn{font-family:Bangers,Impact,sans-serif;letter-spacing:1.2px;font-size:22px;background:var(--accent);color:#fff;
+    border:3px solid var(--ink);border-radius:10px;padding:8px 18px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);
+    display:block;margin:16px auto 0}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .btn.ghost{background:#fff;color:var(--ink)}
+  .note{background:#fff59d;border:2px solid var(--ink);padding:8px 10px 6px;box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+  .note h4{margin:0 0 4px;font-size:15px;text-align:center}
+  .note ol{margin:0;padding:0;list-style:none}
+  .note li{display:flex;align-items:center;gap:5px;font-weight:700;font-size:14px;padding:1px 0}
+  .note li .n{width:18px;font-size:13px;opacity:.7}
+  .note li.x{text-decoration:line-through;opacity:.35}
+  .note li.now{background:rgba(255,94,126,.25);border-radius:4px}
+  .note.you{background:#ffd6e0;}
+  .note.big{max-width:240px;margin:12px auto 0;transform:rotate(1.5deg)}
+  .note.big li{font-size:18px;padding:3px 0}
+  .note.big li .n{width:24px;font-size:16px}
+  .notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin-top:12px}
+  .notes .note:nth-child(odd){transform:rotate(-1.5deg)} .notes .note:nth-child(even){transform:rotate(1.2deg)}
+  .tally{margin-top:12px}
+  .row{margin:0 0 12px}
+  .row.out .rowhead span:first-child{text-decoration:line-through}
+  .row.out{opacity:.4}
+  .rowhead{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:17px;margin-bottom:4px}
+  .rowhead span:first-child{display:flex;align-items:center;gap:5px}
+  .chips{display:flex;flex-wrap:wrap;gap:4px;min-height:8px}
+  .chip{border:2px solid var(--ink);border-radius:20px;padding:1px 8px;font-size:13px;font-weight:700}
+  .chip.you{outline:3px solid var(--blue);outline-offset:1px}
+  .chip.new{animation:drop .6s ease-out}
+  @keyframes drop{from{transform:translateY(-14px);opacity:0}to{transform:none;opacity:1}}
+  .goal{font-size:13px;font-weight:700;opacity:.8;margin-top:2px}
+  .moves{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .move{border:2px solid var(--ink);border-radius:20px;padding:3px 10px 3px 4px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:4px;background:#fff}
+  .move svg{width:20px;height:20px}
+  .you-note{margin-top:12px;background:#e8f1ff;border:3px solid var(--blue);border-radius:10px;padding:8px 10px;font-weight:700;font-size:16px}
+  .boom{font-family:Bangers,Impact,sans-serif;font-size:clamp(32px,9vw,52px);text-align:center;letter-spacing:2px;line-height:1.05;
+    color:var(--yellow);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);margin:6px 0 10px;transform:rotate(-3deg)}
+  .reveal{background:var(--accent);background-image:repeating-conic-gradient(from 0deg at 50% 40%, rgba(255,255,255,.18) 0 10deg, transparent 10deg 20deg)}
+  .reveal .boom{color:#fff}
+  .map{background:#fff;border:3px solid var(--ink);border-radius:10px;overflow:hidden;margin-top:12px}
+  .map div{display:grid;grid-template-columns:1fr 26px 1fr;align-items:center;gap:4px;padding:8px 10px;border-top:2px dashed #bbb;font-size:15px;line-height:1.3}
+  .map div:first-child{border-top:none}
+  .map .arrow{text-align:center;font-weight:700;color:var(--accent);font-size:18px}
+  .map .r{font-weight:700}
+  .foot{text-align:center;font-size:13px;opacity:.75;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Dad's Ice Cream Run</h1>
+  <div id="comic"></div>
+</div>
+
+<script>
+const FL = {
+  choc:{name:"Chocolate", color:"#8a5434", text:"#fff", chip:null},
+  van: {name:"Vanilla",   color:"#f6e7b8", text:"#1d1a24", chip:"#d9b25f"},
+  straw:{name:"Strawberry",color:"#f6a3b9", text:"#1d1a24", chip:"#d0435f"}
+};
+const ORDER = ["choc","van","straw"];
+const FAMILY = [
+  {name:"Uncle Ted", rank:["choc","van","straw"]},
+  {name:"Leo",       rank:["choc","straw","van"]},
+  {name:"Grandpa",   rank:["choc","van","straw"]},
+  {name:"Maya",      rank:["choc","straw","van"]},
+  {name:"Mom",       rank:["van","straw","choc"]},
+  {name:"Grandma",   rank:["van","choc","straw"]},
+  {name:"Aunt Rosa", rank:["van","straw","choc"]},
+  {name:"Max",       rank:["van","choc","straw"]},
+  {name:"Zoe",       rank:["straw","van","choc"]},
+  {name:"Sam",       rank:["straw","choc","van"]}
+];
+const TOTAL = FAMILY.length + 1;
+
+const comic = document.getElementById("comic");
+let myRank = [], rounds = [], people = [];
+const nm = k => FL[k].name;
+const B = k => `<b>${nm(k)}</b>`;
+
+function scoop(k, size=28){
+  const f = FL[k];
+  const chips = f.chip ? `<circle cx="11" cy="9" r="1.6" fill="${f.chip}"/><circle cx="18" cy="12" r="1.6" fill="${f.chip}"/><circle cx="13" cy="15" r="1.4" fill="${f.chip}"/>` : "";
+  return `<svg viewBox="0 0 28 28" width="${size}" height="${size}" aria-hidden="true"><path d="M8 15 L14 27 L20 15 Z" fill="#e9b26b" stroke="#1d1a24" stroke-width="2" stroke-linejoin="round"/><circle cx="14" cy="11" r="8.5" fill="${f.color}" stroke="#1d1a24" stroke-width="2"/>${chips}</svg>`;
+}
+
+function dad(mood="happy", prop=""){
+  const mouths = {
+    happy:`<path d="M31 62 Q40 70 49 62" stroke="#1d1a24" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    think:`<path d="M33 65 L47 63" stroke="#1d1a24" stroke-width="3" stroke-linecap="round"/>`,
+    wow:`<ellipse cx="40" cy="65" rx="5" ry="6" fill="#1d1a24"/>`
+  };
+  const props = {
+    napkin:`<g transform="translate(52 80) rotate(-10)"><rect width="24" height="22" fill="#fff" stroke="#1d1a24" stroke-width="2.5"/><path d="M4 6h14M4 11h16M4 16h10" stroke="#3a7bd5" stroke-width="2"/></g>`,
+    tub:`<g transform="translate(50 78)"><path d="M2 4 L26 4 L23 30 L5 30 Z" fill="#fff" stroke="#1d1a24" stroke-width="2.5" stroke-linejoin="round"/><rect x="0" y="0" width="28" height="6" rx="2" fill="#ff5e7e" stroke="#1d1a24" stroke-width="2.5"/><circle cx="14" cy="17" r="5" fill="#ffd23f" stroke="#1d1a24" stroke-width="2"/></g>`
+  };
+  return `<svg class="char" viewBox="0 0 80 112" aria-label="Dad">
+    <path d="M14 112 Q14 82 40 82 Q66 82 66 112 Z" fill="#3a7bd5" stroke="#1d1a24" stroke-width="3"/>
+    <path d="M33 82 L40 92 L47 82" fill="#fff" stroke="#1d1a24" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="40" cy="48" r="27" fill="#f2c39b" stroke="#1d1a24" stroke-width="3"/>
+    <path d="M13 44 Q14 18 40 18 Q66 18 67 44 Q60 30 40 30 Q22 30 13 44 Z" fill="#5a3a22" stroke="#1d1a24" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="13" cy="50" r="5" fill="#f2c39b" stroke="#1d1a24" stroke-width="2.5"/><circle cx="67" cy="50" r="5" fill="#f2c39b" stroke="#1d1a24" stroke-width="2.5"/>
+    <circle cx="31" cy="46" r="3" fill="#1d1a24"/><circle cx="49" cy="46" r="3" fill="#1d1a24"/>
+    ${mood==="think"?`<path d="M25 38 L36 40 M44 38 L55 36" stroke="#1d1a24" stroke-width="3" stroke-linecap="round"/>`:`<path d="M25 38 Q31 34 36 38 M44 38 Q49 34 55 38" stroke="#1d1a24" stroke-width="3" fill="none" stroke-linecap="round"/>`}
+    <path d="M28 57 Q34 52 40 56 Q46 52 52 57 Q46 60 40 58 Q34 60 28 57 Z" fill="#5a3a22" stroke="#1d1a24" stroke-width="2"/>
+    ${mouths[mood]||mouths.happy}
+    ${props[prop]||""}
+  </svg>`;
+}
+
+function panel(tag, html, cls=""){
+  const p = document.createElement("section");
+  p.className = "panel " + cls;
+  p.innerHTML = (tag?`<div class="tag">${tag}</div>`:"") + html;
+  comic.appendChild(p);
+  setTimeout(()=>p.scrollIntoView({behavior:"smooth", block:"start"}), 60);
+  return p;
+}
+const say = (text, mood, prop) => `<div class="scene">${dad(mood, prop)}<div class="bubble">${text}</div></div>`;
+function nextBtn(p, label, fn, cls="btn"){
+  const b = document.createElement("button");
+  b.className=cls; b.textContent=label;
+  b.onclick=()=>{ b.remove(); fn(); };
+  p.appendChild(b);
+}
+function noteHTML(name, rank, opts={}){
+  const {active=null, current=null, big=false, you=false} = opts;
+  const labels = ["Favorite","Next best","Last"];
+  return `<div class="note${big?" big":""}${you?" you":""}"><h4>${name}</h4><ol>${rank.map((k,i)=>{
+    const cls = active && !active.includes(k) ? "x" : (k===current ? "now" : "");
+    return `<li class="${cls}"><span class="n">${i+1}.</span>${scoop(k, big?24:18)}${nm(k)}</li>`;
+  }).join("")}</ol></div>`;
+}
+
+/* ---------- The questions ---------- */
+function start(){ comic.innerHTML = ""; myRank = []; askNext(); }
+
+function askNext(){
+  const left = ORDER.filter(k=>!myRank.includes(k));
+  if(left.length===1){ myRank.push(left[0]); gotIt(); return; }
+  const text = myRank.length===0
+    ? `Family movie night! I'm getting ice cream, but <b>nobody can agree</b> on a flavor, and we can only get <b>ONE</b>.<br><br>Help me out: <b>which flavor is your favorite?</b>`
+    : `${B(myRank[0])}, got it! And if we <b>don't</b> end up with ${nm(myRank[0])}, which of these would you rather have?`;
+  const p = panel(myRank.length===0 ? "Movie Night" : "", say(text, myRank.length===0?"happy":"think") + `<div class="choices"></div>`);
+  const box = p.querySelector(".choices");
+  if(left.length===2) box.style.gridTemplateColumns="1fr 1fr";
+  else box.style.gridTemplateColumns="1fr";
+  left.forEach(k=>{
+    const b = document.createElement("button");
+    b.className="choice"; b.style.background=FL[k].color; b.style.color=FL[k].text;
+    b.innerHTML = scoop(k)+nm(k);
+    b.onclick = ()=>{
+      box.querySelectorAll("button").forEach(x=>{ x.disabled=true; if(x!==b) x.style.opacity=.3; });
+      myRank.push(k); setTimeout(askNext, 250);
+    };
+    box.appendChild(b);
+  });
+}
+
+function gotIt(){
+  const p = panel("", say(`Perfect, thanks! I wrote it down:`, "happy", "napkin")
+    + noteHTML("Your list", myRank, {big:true, you:true}));
+  nextBtn(p, "Next", family);
+}
+
+function family(){
+  const p = panel("Meanwhile...", `<div class="narr">Dad asks everyone else in the family the same two questions.</div>`
+    + say(`Okay! Now I've got everybody's list. Let's figure this out <b>fair and square</b>.`, "think", "napkin")
+    + `<div class="notes">${FAMILY.map(f=>noteHTML(f.name, f.rank)).join("")}${noteHTML("You", myRank, {you:true})}</div>`);
+  nextBtn(p, "Let's figure it out!", ()=>{ countIt(); showRound(0); });
+}
+
+/* ---------- Counting ---------- */
+function countIt(){
+  people = FAMILY.map(f=>({...f, you:false})).concat([{name:"YOU", rank:myRank, you:true}]);
+  rounds = [];
+  let active = [...ORDER], prevTop = null;
+  while(true){
+    const top = people.map(pp=>pp.rank.find(k=>active.includes(k)));
+    const counts = {}; active.forEach(k=>counts[k]=0); top.forEach(k=>counts[k]++);
+    const r = {active:[...active], counts, top, prevTop};
+    const leader = active.reduce((a,b)=>counts[b]>counts[a]?b:a);
+    if(counts[leader]*2 > TOTAL){ r.winner = leader; rounds.push(r); break; }
+    r.leaders = active.filter(k=>counts[k]===counts[leader]);
+    const min = Math.min(...active.map(k=>counts[k]));
+    r.out = active.filter(k=>counts[k]===min).sort((a,b)=>ORDER.indexOf(b)-ORDER.indexOf(a))[0];
+    const nextActive = active.filter(k=>k!==r.out);
+    r.moved = [];
+    people.forEach((pp,i)=>{ if(top[i]===r.out) r.moved.push({name:pp.name, you:pp.you, to:pp.rank.find(k=>nextActive.includes(k))}); });
+    rounds.push(r);
+    prevTop = top; active = nextActive;
+  }
+}
+
+function tallyHTML(r){
+  return `<div class="tally">${ORDER.map(k=>{
+    if(!r.active.includes(k)) return `<div class="row out"><div class="rowhead"><span>${scoop(k,22)} ${nm(k)}</span><span>out</span></div></div>`;
+    const chips = people.map((pp,i)=>{
+      if(r.top[i]!==k) return "";
+      const isNew = r.prevTop && r.prevTop[i]!==k;
+      return `<span class="chip${pp.you?" you":""}${isNew?" new":""}" style="background:${FL[k].color};color:${FL[k].text}">${pp.name}</span>`;
+    }).join("");
+    return `<div class="row"><div class="rowhead"><span>${scoop(k,22)} ${nm(k)}</span></div><div class="chips">${chips}</div></div>`;
+  }).join("")}</div>`;
+}
+
+function showRound(ri){
+  const r = rounds[ri];
+  const intro = ri===0
+    ? `First, let's line everybody up behind their <b>favorite</b>.`
+    : `Now it's down to two. Everybody lines up behind the one they <b>like better</b>.`;
+  const p = panel(ri===0 ? "Step 1" : "Step 2", say(intro, "think", "napkin") + tallyHTML(r));
+
+  if(r.winner){ nextBtn(p, "So who wins?", ()=>finale()); return; }
+
+  nextBtn(p, "Can we just pick the biggest group?", ()=>{
+    const why = r.leaders.length>1
+      ? `Not yet! ${r.leaders.map(B).join(" and ")} are <b>tied</b>. And either way, <b>most of the family</b> didn't pick them.`
+      : `Not yet! ${B(r.leaders[0])} has the biggest group, but look: <b>more of us picked something else</b>. If I just grabbed ${nm(r.leaders[0])}, most of the family would be unhappy.`;
+    const movesHTML = r.moved.map(m=>`<span class="move">${m.name} → ${scoop(m.to,20)}${nm(m.to)}</span>`).join("");
+    const me = r.moved.find(m=>m.you);
+    const youNote = me
+      ? `<div class="you-note">Hey, that's YOUR favorite that's out! But you still get a say. You said your next pick was ${B(me.to)}, so that's where you go.</div>`
+      : `<div class="you-note">Your favorite, ${B(myRank[0])}, is still in, so you stay right where you are.</div>`;
+    const p2 = panel("", say(`${why}<br><br>So here's the trick: ${B(r.out)} is the <b>least popular</b>, so it's <b>out</b>. But the people who picked it still get a say. They just switch to their <b>next favorite</b>.`, "wow") +
+      `<div class="moves">${movesHTML}</div>${youNote}`);
+    nextBtn(p2, "Line up again", ()=>showRound(ri+1));
+  });
+}
+
+/* ---------- The ending ---------- */
+function finale(){
+  const last = rounds[rounds.length-1], w = last.winner;
+  const loser = last.active.find(k=>k!==w);
+  const firstLeaders = rounds[0].leaders || [];
+  const meMoved = rounds.some(r=>r.moved && r.moved.some(m=>m.you));
+  let youLine;
+  if(myRank[0]===w) youLine = `That was <b>your favorite</b>. Nice!`;
+  else if(meMoved) youLine = `Your favorite got knocked out, but your <b>second choice</b> still counted, and it helped decide the winner!`;
+  else youLine = `Not your favorite this time, but your pick still counted the whole way.`;
+  let twist = "";
+  if(firstLeaders.length===1 && firstLeaders[0]!==w)
+    twist = `<br><br>Funny thing: ${B(firstLeaders[0])} had the biggest group at the start, but once everyone's next favorite counted, more people wanted ${nm(w)}.`;
+  const p = panel("Winner!", `<div class="boom">We're getting ${nm(w).toUpperCase()}!</div>
+    <div style="text-align:center">${scoop(w,80)}</div>`
+    + say(`${B(w)} has a bigger group than ${nm(loser)}. That means <b>more than half the family</b> is happy with it. ${youLine}${twist}`, "happy", "tub"));
+  nextBtn(p, "Wait... what just happened?", reveal);
+}
+
+function reveal(){
+  const p = panel("", `<div class="boom">Congratulations!<br>You just ranked choice voted!</div>
+    <div class="map">
+      <div><span>Telling Dad your favorite, then your next favorite</span><span class="arrow">=</span><span class="r">Ranking candidates on a ballot</span></div>
+      <div><span>Your family</span><span class="arrow">=</span><span class="r">The voters</span></div>
+      <div><span>The ice cream flavors</span><span class="arrow">=</span><span class="r">The candidates</span></div>
+      <div><span>Knocking out the least popular flavor and moving those people to their next favorite</span><span class="arrow">=</span><span class="r">An elimination round</span></div>
+      <div><span>Picking the flavor more than half the family is happy with</span><span class="arrow">=</span><span class="r">Winning a majority</span></div>
+    </div>
+    <p style="font-size:17px;line-height:1.4;margin:14px 0 0;background:#fff;border:3px solid var(--ink);border-radius:10px;padding:10px">
+      <b>The big idea:</b> if your favorite gets knocked out, your vote isn't wasted. It moves to your next choice.</p>`, "reveal");
+  nextBtn(p, "Try again with different picks", start, "btn ghost");
+}
+
+start();
+</script>
+</body>
+</html>
